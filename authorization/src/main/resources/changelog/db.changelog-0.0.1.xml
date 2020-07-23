@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_client_details"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_client_details table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_client_details` (
+            `client_id` VARCHAR(255) NOT NULL,
+            `client_secret` VARCHAR(255) NOT NULL,
+            `web_server_redirect_uri` VARCHAR(2048) NULL DEFAULT NULL,
+            `scope` VARCHAR(255) NULL DEFAULT NULL,
+            `access_token_validity` INT(11) NULL DEFAULT NULL,
+            `refresh_token_validity` INT(11) NULL DEFAULT NULL,
+            `resource_ids` VARCHAR(1024) NULL DEFAULT NULL,
+            `authorized_grant_types` VARCHAR(1024) NULL DEFAULT NULL,
+            `authorities` VARCHAR(1024) NULL DEFAULT NULL,
+            `additional_information` VARCHAR(4096) NULL DEFAULT NULL,
+            `autoapprove` VARCHAR(255) NULL DEFAULT NULL,
+            PRIMARY KEY (`client_id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="permission"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create permission table if not exists</comment>
+        <sql>
+            CREATE TABLE `permission` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `category` VARCHAR(512) NULL DEFAULT NULL,
+            `name` VARCHAR(512) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE INDEX `name` (`name`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="role"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create role table if not exists</comment>
+        <sql>
+            CREATE TABLE `role` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `name` VARCHAR(255) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE INDEX `name` (`name`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="user"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create user table if not exists</comment>
+        <sql>
+            CREATE TABLE `user` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `branch_id` VARCHAR(100) NULL DEFAULT NULL,
+            `branch_name` VARCHAR(100) NULL DEFAULT NULL,
+            `address` VARCHAR(500) NULL DEFAULT NULL,
+            `phone_number` VARCHAR(20) NULL DEFAULT NULL,
+            `user_name` VARCHAR(100) NOT NULL,
+            `password` VARCHAR(100) NOT NULL,
+            `email` VARCHAR(100) NOT NULL,
+            `enabled` TINYINT(4) NOT NULL DEFAULT true,
+            `account_non_expired` TINYINT(4) NOT NULL DEFAULT true,
+            `credentials_non_expired` TINYINT(4) NOT NULL DEFAULT true,
+            `account_non_locked` TINYINT(4) NOT NULL DEFAULT true,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            `picture_id` BIGINT(20) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            UNIQUE INDEX `user_name` (`user_name`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="permission_role"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create permission_role table if not exists</comment>
+        <sql>
+            CREATE TABLE `permission_role` (
+            `permission_id`  BIGINT(20) NULL DEFAULT NULL,
+            `role_id` BIGINT(20) NULL DEFAULT NULL,
+            INDEX `permission_id` (`permission_id`),
+            INDEX `role_id` (`role_id`),
+            CONSTRAINT `permission_role_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`),
+            CONSTRAINT `permission_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="role_user"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create role_user table if not exists</comment>
+        <sql>
+            CREATE TABLE `role_user` (
+            `role_id` BIGINT(20) NULL DEFAULT NULL,
+            `user_id` BIGINT(20) NULL DEFAULT NULL,
+            INDEX `role_id` (`role_id`),
+            INDEX `user_id` (`user_id`),
+            CONSTRAINT `role_user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+            CONSTRAINT `role_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="7" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_client_token"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_client_token table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_client_token` (
+            `token_id` VARCHAR(256) NULL DEFAULT NULL,
+            `token` MEDIUMBLOB NULL DEFAULT NULL,
+            `authentication_id` VARCHAR(256) NOT NULL,
+            `user_name` VARCHAR(256) NULL DEFAULT NULL,
+            `client_id` VARCHAR(256) NULL DEFAULT NULL,
+            PRIMARY KEY (`authentication_id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="8" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_access_token"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_access_token table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_access_token` (
+            `token_id` VARCHAR(256) NULL DEFAULT NULL,
+            `token` MEDIUMBLOB NULL DEFAULT NULL,
+            `authentication_id` VARCHAR(256) NOT NULL,
+            `user_name` VARCHAR(256) NULL DEFAULT NULL,
+            `client_id` VARCHAR(256) NULL DEFAULT NULL,
+            `authentication` MEDIUMBLOB NULL DEFAULT NULL,
+            `refresh_token` VARCHAR(256) NULL DEFAULT NULL,
+            PRIMARY KEY (`authentication_id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="9" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_refresh_token"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_refresh_token table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_refresh_token` (
+            `token_id` VARCHAR(256) NULL DEFAULT NULL,
+            `token` MEDIUMBLOB NULL DEFAULT NULL,
+            `authentication` MEDIUMBLOB NULL DEFAULT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="10" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_code"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_code table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_code` (
+            `code` VARCHAR(256) NULL DEFAULT NULL,
+            `authentication` MEDIUMBLOB NULL DEFAULT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="oauth_approvals"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create oauth_approvals table if not exists</comment>
+        <sql>
+            CREATE TABLE `oauth_approvals` (
+            `userId` VARCHAR(256) NULL DEFAULT NULL,
+            `clientId` VARCHAR(256) NULL DEFAULT NULL,
+            `scope` VARCHAR(256) NULL DEFAULT NULL,
+            `status` VARCHAR(10) NULL DEFAULT NULL,
+            `expiresAt` TIMESTAMP NULL DEFAULT NULL,
+            `lastModifiedAt` TIMESTAMP NULL DEFAULT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="12" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="imagefile"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create ImageFile table if not exists</comment>
+        <sql>
+            CREATE TABLE `imagefile` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `created_date` DATETIME NULL DEFAULT NULL,
+            `pic_uuid` VARCHAR(255) NULL DEFAULT NULL,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            `mime_type` VARCHAR(255) NULL DEFAULT NULL,
+            `picture_name` VARCHAR(255) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="13" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="news"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create News table if not exists</comment>
+        <sql>
+            CREATE TABLE `news` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `category` VARCHAR(255) NULL DEFAULT NULL,
+            `date` VARCHAR(255) NULL DEFAULT NULL,
+            `month` VARCHAR(255) NULL DEFAULT NULL,
+            `description` VARCHAR(5000) NULL DEFAULT NULL,
+            `is_active` BIT(1) NULL DEFAULT true,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            `picture_id` BIGINT(20) NULL DEFAULT NULL,
+            `short_description` VARCHAR(500) NULL DEFAULT NULL,
+            `topic` VARCHAR(255) NOT NULL,
+            PRIMARY KEY (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="14" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="crop"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create Crop table if not exists</comment>
+        <sql>
+            CREATE TABLE `crop` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `crop_name` VARCHAR(255) NULL DEFAULT NULL,
+            `crop_price` FLOAT NULL DEFAULT NULL,
+            `crop_type` VARCHAR(255) NULL DEFAULT NULL,
+            `district` VARCHAR(255) NULL DEFAULT NULL,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            PRIMARY KEY (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="15" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="project"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create Project table if not exists</comment>
+        <sql>
+            CREATE TABLE `project` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `description` VARCHAR(255) NULL DEFAULT NULL,
+            `district` VARCHAR(255) NULL DEFAULT NULL,
+            `expensive` FLOAT NULL DEFAULT NULL,
+            `farming_type` VARCHAR(255) NULL DEFAULT NULL,
+            `humidity` FLOAT NULL DEFAULT NULL,
+            `income` FLOAT NULL DEFAULT NULL,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            `is_fail` BIT(1) NULL DEFAULT false,
+            `is_expired` BIT(1) NULL DEFAULT false,
+            `land_size` FLOAT NULL DEFAULT NULL,
+            `pressure` FLOAT NULL DEFAULT NULL,
+            `rainfall` FLOAT NULL DEFAULT NULL,
+            `reason_fail` VARCHAR(255) NULL DEFAULT NULL,
+            `soil_status` VARCHAR(255) NULL DEFAULT NULL,
+            `start_date` DATETIME NULL DEFAULT NULL,
+            `expire_date` DATETIME NULL DEFAULT NULL,
+            `temperature` FLOAT NULL DEFAULT NULL,
+            `update_date` DATETIME NULL DEFAULT NULL,
+            `village` VARCHAR(255) NULL DEFAULT NULL,
+            `crop` BIGINT(20) NULL DEFAULT NULL,
+            `farmer` BIGINT(20) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            INDEX `FK5thqx42vkqutkwp63cqe8aqqp` (`crop`),
+            INDEX `FKhay0ci0sv7fgtjnhq7a8vrnql` (`farmer`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="16" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="farmer"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create Farmer table if not exists</comment>
+        <sql>
+            CREATE TABLE `farmer` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `district` VARCHAR(255) NULL DEFAULT NULL,
+            `first_name` VARCHAR(255) NULL DEFAULT NULL,
+            `id_number` VARCHAR(255) NULL DEFAULT NULL,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            `last_name` VARCHAR(255) NULL DEFAULT NULL,
+            `phone_number` INT(11) NULL DEFAULT NULL,
+            `village` VARCHAR(255) NULL DEFAULT NULL,
+            PRIMARY KEY (`id`)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="17" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <not>
+                <tableExists tableName="message"></tableExists>
+            </not>
+        </preConditions>
+        <comment>Create Message table if not exists</comment>
+        <sql>
+            CREATE TABLE `message` (
+            `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+            `created_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `edited_user_id` BIGINT(20) NULL DEFAULT NULL,
+            `message` VARCHAR(1000) NULL DEFAULT NULL,
+            `from_id` VARCHAR(50) NULL DEFAULT NULL,
+            `to_id` VARCHAR(50) NULL DEFAULT NULL,
+            `time` VARCHAR(50) NULL DEFAULT NULL,
+            `is_deleted` BIT(1) NULL DEFAULT false,
+            PRIMARY KEY (`id`)
+            );
+        </sql>
+    </changeSet>
+</databaseChangeLog>

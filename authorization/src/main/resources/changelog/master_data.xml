@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+                <tableExists tableName="oauth_client_details"></tableExists>
+        </preConditions>
+        <comment>Insert data oauth_client_details table if exists</comment>
+        <sql>
+            INSERT INTO oauth_client_details (client_id, client_secret, web_server_redirect_uri, scope, access_token_validity, refresh_token_validity, resource_ids, authorized_grant_types, additional_information) VALUES
+            ('prediction_system', '{bcrypt}$2a$10$gPhlXZfms0EpNHX0.HHptOhoFD1AoxSr/yUIdTqA8vtjeP4zi0DDu', 'http://localhost:8081/code', 'READ,WRITE', '3600', '10000', 'DASHBOARD_01', 'authorization_code,password,refresh_token,implicit', '{}');
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="permission"></tableExists>
+        </preConditions>
+        <comment>Insert data permission table if exists</comment>
+        <sql>
+            INSERT INTO permission (category, name) VALUES
+            ('Profile', 'CREATE'),
+            ('Profile', 'VIEW_ANY'),
+            ('Profile', 'VIEW_MY'),
+            ('Profile', 'EDIT_ANY'),
+            ('Profile', 'EDIT_MY'),
+            ('Profile', 'DELETE_ANY'),
+            ('Profile', 'DELETE_MY');
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="role"></tableExists>
+        </preConditions>
+        <comment>Insert data role table if exists</comment>
+        <sql>
+            INSERT INTO role (NAME) VALUES
+            ('Administrator'),('Officer'),('User');
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="user"></tableExists>
+        </preConditions>
+        <comment>Insert data user table if exists</comment>
+        <sql>
+            INSERT INTO user (id, user_name, password, email, enabled, account_non_expired, credentials_non_expired, account_non_locked) VALUES
+            ('1', 'admin','{bcrypt}$2a$10$pFh/LCGYqYv4GFw6MY607eVTeSmlMrWqlha.QozFkyrb5lgA7x5b2', 'admin@gmail.com', '1', '1', '1', '1'),
+            ('2', 'officer', '{bcrypt}$2a$10$qG7rrwStU0Jm6ZbEc9yjt.xercc9LfKmFCaXnG/LwYo8SiVVqaSDq','officer@gmail.com', '1', '1', '1', '1'),
+            ('3', 'user', '{bcrypt}$2a$10$ClXSQV3OS1W8uZBmTdDcE.C96CWyMyOWTwdQ2fY/B.b8CjA42vKTe','user@gmail.com', '1', '1', '1', '1');
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="permission_role"></tableExists>
+        </preConditions>
+        <comment>Insert data permission_role table if exists</comment>
+        <sql>
+            INSERT INTO permission_role (PERMISSION_ID, ROLE_ID) VALUES
+            (1,1),
+            (2,1),
+            (3,1),
+            (4,1),
+            (5,1),
+            (6,1),
+            (7,1),
+            (1,2),
+            (3,2),
+            (5,2),
+            (7,2);
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="prasad">
+        <preConditions onFail="MARK_RAN" onError="MARK_RAN">
+            <tableExists tableName="role_user"></tableExists>
+        </preConditions>
+        <comment>Insert data role_user table if exists</comment>
+        <sql>
+            INSERT INTO role_user (ROLE_ID, USER_ID)
+            VALUES
+            (1, 1), /* admin */
+            (2, 2), /* officer */
+            (3, 3); /* user */
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
