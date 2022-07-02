@@ -2,7 +2,6 @@ package kln.se.agri.ai.dashboard.controller;
 
 import io.swagger.annotations.Api;
 import kln.se.agri.ai.commons.model.*;
-import kln.se.agri.ai.dashboard.rest.response.ResponseWrapper;
 import kln.se.agri.ai.persistence.dto.ProjectDto;
 import kln.se.agri.ai.persistence.service.CropService;
 import kln.se.agri.ai.persistence.service.ProjectService;
@@ -92,12 +91,12 @@ public class ProjectController {
         project.setFarmer(farmer);
         String cropName = projectDto.getCropName();
         String idNumber = farmer.getIdNumber();
-        project.setCropName(cropName);
-        project.setIdNumber(idNumber);
+//        project.setCropName(cropName);
+//        project.setIdNumber(idNumber);
         Crop crop = cropService.getCropByName(cropName);
         project.setCrop(crop);
-        project.setIsFail(projectDto.isFail());
-        project.setIsExpired(projectDto.isExpired());
+        project.setFail(projectDto.isFail());
+        project.setExpired(projectDto.isExpired());
         Project project1 = null;
         if(projectDto.getId() == null){
             project.setCreatedUserId(user.getId());
@@ -139,7 +138,7 @@ public class ProjectController {
         if(user != null){
             List<SQLQuery> getProjectCountsList = projectService.getProjectCountByFarmerID();
             SQLQuery biggerList = null;
-            Long value = 0L;
+            long value = 0L;
             for(SQLQuery farmerProjectCount : getProjectCountsList){
                 if(value < farmerProjectCount.getTotal()){
                     value = farmerProjectCount.getTotal();
@@ -147,8 +146,8 @@ public class ProjectController {
                 }
             }
             for(SQLQuery count : getProjectCountsList){
-                if(biggerList.equals(count)){
-                    count.setIsBigger(true);
+                if(biggerList != null && biggerList.equals(count)){
+                    count.setBigger(true);
                     break;
                 }
             }
@@ -166,7 +165,7 @@ public class ProjectController {
         if(user != null){
             List<SQLQuery> countsList = projectService.getCropCounts();
             SQLQuery biggerList = null;
-            Long value = 0L;
+            long value = 0L;
             for(SQLQuery count : countsList){
                 if(value < count.getTotal()){
                     value = count.getTotal();
@@ -174,8 +173,8 @@ public class ProjectController {
                 }
             }
             for(SQLQuery count : countsList){
-                if(biggerList.equals(count)){
-                    count.setIsBigger(true);
+                if(biggerList != null && biggerList.equals(count)){
+                    count.setBigger(true);
                     break;
                 }
             }
@@ -206,8 +205,8 @@ public class ProjectController {
                 profitList.add(sqlQuery);
             }
             for(SQLQuery count : profitList){
-                if(biggerList.equals(count)){
-                    count.setIsBigger(true);
+                if(biggerList != null && biggerList.equals(count)){
+                    count.setBigger(true);
                     break;
                 }
             }

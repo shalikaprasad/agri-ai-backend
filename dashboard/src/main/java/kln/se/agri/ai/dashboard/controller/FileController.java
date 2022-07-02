@@ -1,9 +1,9 @@
 package kln.se.agri.ai.dashboard.controller;
 
 import io.swagger.annotations.Api;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
 import kln.se.agri.ai.commons.model.User;
-import kln.se.agri.ai.dashboard.constant.Constants;
-import kln.se.agri.ai.dashboard.rest.response.ResponseWrapper;
+import kln.se.agri.ai.commons.constant.Constants;
 import kln.se.agri.ai.persistence.service.FileService;
 import kln.se.agri.ai.persistence.service.UserService;
 import org.slf4j.Logger;

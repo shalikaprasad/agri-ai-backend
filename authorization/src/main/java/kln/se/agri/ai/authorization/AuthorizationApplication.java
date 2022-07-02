@@ -7,8 +7,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
-@SpringBootApplication
-@EntityScan(basePackages = "kln.se.agri.ai.authorization.model")
+@SpringBootApplication(scanBasePackages = "kln.se.agri")
+@EntityScan(basePackages = "kln.se.agri.ai.commons.model")
 @EnableAuthorizationServer
 public class AuthorizationApplication {
 

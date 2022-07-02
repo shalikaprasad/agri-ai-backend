@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/public/pom.xml" />
         <option value="$PROJECT_DIR$/dashboard/pom.xml" />
         <option value="$PROJECT_DIR$/authorization/pom.xml" />
+        <option value="$PROJECT_DIR$/user/pom.xml" />
+        <option value="$PROJECT_DIR$/commons/pom.xml" />
+        <option value="$PROJECT_DIR$/persistence/pom.xml" />
       </list>
     </option>
   </component>

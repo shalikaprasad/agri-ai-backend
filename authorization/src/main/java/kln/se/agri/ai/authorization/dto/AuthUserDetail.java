@@ -1,6 +1,6 @@
 package kln.se.agri.ai.authorization.dto;
 
-import kln.se.agri.ai.authorization.model.User;
+import kln.se.agri.ai.commons.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

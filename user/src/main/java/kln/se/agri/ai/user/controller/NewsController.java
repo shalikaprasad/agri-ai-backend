@@ -3,9 +3,9 @@ package kln.se.agri.ai.user.controller;
 
 import io.swagger.annotations.Api;
 import kln.se.agri.ai.commons.model.News;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
 import kln.se.agri.ai.persistence.service.FileService;
 import kln.se.agri.ai.persistence.service.NewsService;
-import kln.se.agri.ai.pub.rest.response.ResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

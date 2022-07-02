@@ -1,8 +1,8 @@
 package kln.se.agri.ai.authorization.service.impl;
 
 import kln.se.agri.ai.authorization.dto.AuthUserDetail;
-import kln.se.agri.ai.authorization.model.User;
 import kln.se.agri.ai.authorization.service.UserDetailRepository;
+import kln.se.agri.ai.commons.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;

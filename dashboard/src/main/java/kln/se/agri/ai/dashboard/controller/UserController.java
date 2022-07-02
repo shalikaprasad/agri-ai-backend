@@ -2,9 +2,9 @@ package kln.se.agri.ai.dashboard.controller;
 
 import io.swagger.annotations.Api;
 import kln.se.agri.ai.commons.model.Farmer;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
 import kln.se.agri.ai.commons.model.Role;
 import kln.se.agri.ai.commons.model.User;
-import kln.se.agri.ai.dashboard.rest.response.ResponseWrapper;
 import kln.se.agri.ai.persistence.dto.FarmerDto;
 import kln.se.agri.ai.persistence.dto.UserDto;
 import kln.se.agri.ai.persistence.service.FileService;

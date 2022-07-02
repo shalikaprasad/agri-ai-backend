@@ -1,6 +1,13 @@
 package kln.se.agri.ai.dashboard.controller;
 
-import kln.se.agri.ai.dashboard.model.ResponseWrapper;
+import io.swagger.annotations.Api;
+import kln.se.agri.ai.commons.model.News;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
+import kln.se.agri.ai.commons.model.User;
+import kln.se.agri.ai.persistence.dto.NewsDto;
+import kln.se.agri.ai.persistence.service.FileService;
+import kln.se.agri.ai.persistence.service.NewsService;
+import kln.se.agri.ai.persistence.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

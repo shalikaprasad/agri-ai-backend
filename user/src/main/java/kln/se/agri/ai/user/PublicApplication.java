@@ -3,7 +3,7 @@ package kln.se.agri.ai.user;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "kln.se.agri")
 public class PublicApplication {
 
 	public static void main(String[] args) {

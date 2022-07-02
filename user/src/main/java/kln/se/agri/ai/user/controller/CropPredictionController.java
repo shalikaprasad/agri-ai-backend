@@ -2,9 +2,9 @@ package kln.se.agri.ai.user.controller;
 
 import io.swagger.annotations.Api;
 import kln.se.agri.ai.commons.model.Crop;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
 import kln.se.agri.ai.persistence.dto.CropDto;
 import kln.se.agri.ai.persistence.service.CropService;
-import kln.se.agri.ai.pub.rest.response.ResponseWrapper;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

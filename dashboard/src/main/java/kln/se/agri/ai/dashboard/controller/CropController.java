@@ -1,10 +1,12 @@
 package kln.se.agri.ai.dashboard.controller;
 
 import io.swagger.annotations.Api;
-import kln.se.agri.ai.dashboard.model.Crop;
-import kln.se.agri.ai.dashboard.model.ResponseWrapper;
-import kln.se.agri.ai.dashboard.service.CropService;
-import kln.se.agri.ai.dashboard.service.UserService;
+import kln.se.agri.ai.commons.model.Crop;
+import kln.se.agri.ai.commons.model.ResponseWrapper;
+import kln.se.agri.ai.commons.model.User;
+import kln.se.agri.ai.persistence.dto.CropDto;
+import kln.se.agri.ai.persistence.service.CropService;
+import kln.se.agri.ai.persistence.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
